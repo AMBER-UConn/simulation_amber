@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+
+
+<robot name="AMBER" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find amber_sim)/urdf/single_leg.xacro"/>
+
+
+    <xacro:amber_leg x="0" y="0" z="1"/>
+
+</robot>
