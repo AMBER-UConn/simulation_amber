@@ -32,25 +32,18 @@
       <inertia ixx="0.000279744834534" ixy="0" ixz="0" iyy="0.000265717763008" iyz="0" izz="6.53151584738e-05"/>
     </inertial>
   </link>
-
-  <joint name="hip_joint" type="revolute">
-    <parent link="hip_module"/>
-    <child link="upper_leg"/>
-    <dynamics damping="3.0" friction="0.3"/>
-    <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
-    <origin rpy="0 0 0" xyz="0 0 0.123"/>
-    <axis xyz="0 1 0"/>
-  </joint>
 -->
 
-  <xacro:macro name="amber_leg" params="x y z">
+  <xacro:macro name="amber_leg" params="id x y z joint">
 
+  <!--
     <origin rpy = "0 0 0" xyz = "${x} ${y} ${z}"/>
+  -->
 
   <!-- UPPER LEG -->
-    <link name="upper_leg">
+    <link name="upper_leg ${id}">
       <visual>
-        <origin rpy="0 ${arm_angle} 0" xyz="0 0 0"/>
+        <origin rpy="0 ${arm_angle} 0" xyz="${x} ${y} ${z}"/>
         <geometry>
           <!-- <box size="0.0356 0.05 0.317"/> -->
           <mesh filename="package://amber_sim/stl/UPLEG.stl"/>
@@ -69,9 +62,9 @@
       </inertial>
     </link>
 
-    <joint name="knee_joint" type="revolute">
-      <parent link="upper_leg"/>
-      <child link="lower_leg"/>
+    <joint name="knee_joint ${id}" type="revolute">
+      <parent link="upper_leg ${id}"/>
+      <child link="lower_leg ${id}"/>
       <dynamics damping="3.0" friction="0.3"/>
       <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
       <!-- <origin rpy="0 0 0" xyz="0 0 0.317"/> -->
@@ -79,9 +72,9 @@
     </joint>
 
   <!-- LOWER LEG -->
-    <link name="lower_leg">
+    <link name="lower_leg ${id}">
       <visual>
-        <origin rpy="0 0 0" xyz="${(0.5 * alpha) + 0.05} -0.15 -${1.5 * beta}"/>
+        <origin rpy="0 0 0" xyz="${(0.5 * alpha) + 0.05 + x} ${-0.15 + y} ${-(1.5 * beta) + z}"/>
         <geometry>
           <!-- <box size="0.0356 0.05 0.202"/> -->
           <mesh filename="package://amber_sim/stl/LOWLEG.stl"/>
@@ -99,6 +92,15 @@
         <inertia ixx="0.000791433503053" ixy="0" ixz="0" iyy="0.000768905501178" iyz="0" izz="6.88531064581e-05"/>
       </inertial>
     </link>
+
+    <joint name="hip_joint ${id}" type="revolute">
+      <parent link="${joint}"/>
+      <child link="upper_leg ${id}"/>
+      <dynamics damping="3.0" friction="0.3"/>
+      <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
+      <origin rpy="0 0 0" xyz="0 0 0.123"/>
+      <axis xyz="0 1 0"/>
+  </joint>
 
   </xacro:macro>
 </robot>

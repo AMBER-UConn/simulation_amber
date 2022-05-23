@@ -25,21 +25,27 @@
       <inertia ixx="0.000279744834534" ixy="0" ixz="0" iyy="0.000265717763008" iyz="0" izz="6.53151584738e-05"/>
     </inertial>
   </link>
-
-  <joint name="hip_joint" type="revolute">
-    <parent link="hip_module"/>
-    <child link="upper_leg"/>
-    <dynamics damping="3.0" friction="0.3"/>
-    <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
-    <origin rpy="0 0 0" xyz="0 0 0.123"/>
-    <axis xyz="0 1 0"/>
-  </joint>
 -->
-  <origin rpy="0 0 0" xyz="0 0 1"/>
-  <!-- UPPER LEG -->
-  <link name="upper_leg">
+  <link name="head">
     <visual>
-      <origin rpy="0 1.3089969389957472 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0.7 1 1.5"/>
+      <geometry>
+        <box size="0 0 0"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
+      <mass value="0.190421352"/>
+      <inertia ixx="0.000279744834534" ixy="0" ixz="0" iyy="0.000265717763008" iyz="0" izz="6.53151584738e-05"/>
+    </inertial>
+  </link>
+  <!--
+    <origin rpy = "0 0 0" xyz = "${x} ${y} ${z}"/>
+  -->
+  <!-- UPPER LEG -->
+  <link name="upper_leg 0">
+    <visual>
+      <origin rpy="0 1.3089969389957472 0" xyz="0 0 1"/>
       <geometry>
         <!-- <box size="0.0356 0.05 0.317"/> -->
         <mesh filename="package://amber_sim/stl/UPLEG.stl"/>
@@ -57,18 +63,18 @@
       <inertia ixx="0.00251484771035" ixy="0" ixz="0" iyy="0.00248474836108" iyz="0" izz="9.19936757328e-05"/>
     </inertial>
   </link>
-  <joint name="knee_joint" type="revolute">
-    <parent link="upper_leg"/>
-    <child link="lower_leg"/>
+  <joint name="knee_joint 0" type="revolute">
+    <parent link="upper_leg 0"/>
+    <child link="lower_leg 0"/>
     <dynamics damping="3.0" friction="0.3"/>
     <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
     <!-- <origin rpy="0 0 0" xyz="0 0 0.317"/> -->
     <axis xyz="0 1 0"/>
   </joint>
   <!-- LOWER LEG -->
-  <link name="lower_leg">
+  <link name="lower_leg 0">
     <visual>
-      <origin rpy="0 0 0" xyz="0.41270514777154516 -0.15 -0.29155965430798964"/>
+      <origin rpy="0 0 0" xyz="0.41270514777154516 -0.15 0.7084403456920103"/>
       <geometry>
         <!-- <box size="0.0356 0.05 0.202"/> -->
         <mesh filename="package://amber_sim/stl/LOWLEG.stl"/>
@@ -86,5 +92,13 @@
       <inertia ixx="0.000791433503053" ixy="0" ixz="0" iyy="0.000768905501178" iyz="0" izz="6.88531064581e-05"/>
     </inertial>
   </link>
+  <joint name="hip_joint 0" type="revolute">
+    <parent link="head"/>
+    <child link="upper_leg 0"/>
+    <dynamics damping="3.0" friction="0.3"/>
+    <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
+    <origin rpy="0 0 0" xyz="0 0 0.123"/>
+    <axis xyz="0 1 0"/>
+  </joint>
 </robot>
 
