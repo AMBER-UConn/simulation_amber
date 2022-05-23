@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+
+<robot name="omnipointer">
+
+  <material name="omni/Blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="omni/Red">
+    <color rgba="1 0 0 1"/>
+  </material>
+  <material name="omni/Green">
+    <color rgba="0 1 0 1"/>
+  </material>
+  <material name="omni/Yellow">
+    <color rgba="1 1 0 1"/>
+  </material>
+  <!-- <material name="omni/LightGrey">
+    <color rgba="0.6 0.6 0.6 1"/>
+  </material>
+  <material name="omni/DarkGrey">
+    <color rgba="0.4 0.4 0.4 1"/>
+  </material> -->
+
+<!-- HIP -->
+  <link name="hip_module">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
+      <geometry>
+        <!-- <box size="0.0402 0.05 0.123"/> -->
+      </geometry>
+      <material name="omni/Blue"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
+      <geometry>
+        <box size="0.0402 0.05 0.123"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
+      <mass value="0.190421352"/>
+      <inertia ixx="0.000279744834534" ixy="0" ixz="0" iyy="0.000265717763008" iyz="0" izz="6.53151584738e-05"/>
+    </inertial>
+  </link>
+
+  <joint name="hip_joint" type="revolute">
+    <parent link="hip_module"/>
+    <child link="upper_leg"/>
+    <dynamics damping="3.0" friction="0.3"/>
+    <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
+    <origin rpy="0 0 0" xyz="0 0 0.123"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+
+<!-- UPPER LEG -->
+  <link name="upper_leg">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.1585"/>
+      <geometry>
+        <!-- <box size="0.0356 0.05 0.317"/> -->
+        <mesh filename="package://amber_sim/stl/UPLEG.stl"/>
+      </geometry>
+      <material name="omni/Red"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.1585"/>
+      <geometry>
+        <box size="0.0356 0.05 0.317"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.1585"/>
+      <mass value="0.29302326"/>
+      <inertia ixx="0.00251484771035" ixy="0" ixz="0" iyy="0.00248474836108" iyz="0" izz="9.19936757328e-05"/>
+    </inertial>
+  </link>
+
+  <joint name="knee_joint" type="revolute">
+    <parent link="upper_leg"/>
+    <child link="lower_leg"/>
+    <dynamics damping="3.0" friction="0.3"/>
+    <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
+    <origin rpy="0 0 0" xyz="0 0 0.317"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+<!-- LOWER LEG -->
+  <link name="lower_leg">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.101"/>
+      <geometry>
+        <!-- <box size="0.0356 0.05 0.202"/> -->
+        <mesh filename="package://amber_sim/stl/LOWLEG.stl"/>
+      </geometry>
+      <material name="omni/Yellow"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.101"/>
+      <geometry>
+        <box size="0.0356 0.05 0.202"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.101"/>
+      <mass value="0.21931466"/>
+      <inertia ixx="0.000791433503053" ixy="0" ixz="0" iyy="0.000768905501178" iyz="0" izz="6.88531064581e-05"/>
+    </inertial>
+  </link>
+
+</robot>
