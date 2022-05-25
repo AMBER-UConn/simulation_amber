@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="target_urdf" value="$(find amber_sim)/urdf/test.urdf" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+    <!--
+    <node name="xacro" pkg="xacro" type="xacro" cwd="node" output="log"
+        args="$(find amber_sim)/urdf/amber.xacro > $(arg target_urdf)" />
+    -->
+
+    <node name="xacro" pkg="amber_sim" type="xac.sh" output="screen"
+        args="$(find amber_sim)/urdf/amber.xacro  $(arg target_urdf)" />
+
+    <node name="amber_bot" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-urdf -file $(arg target_urdf) -model AMBER" />
+
+</launch>
