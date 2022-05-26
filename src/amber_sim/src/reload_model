@@ -1,0 +1,14 @@
+#! /bin/bash
+
+MODEL="AMBER"
+
+PACK_PATH=$(rospack find amber_sim)
+XAC_PATH="$PACK_PATH/urdf/amber.xacro"
+URDF_PATH="$PACK_PATH/urdf/test.urdf"
+
+
+rosservice call gazebo/delete_model '{model_name: '$MODEL'}'
+
+rosrun amber_sim xac.sh $XAC_PATH $URDF_PATH
+
+rosrun gazebo_ros spawn_model -urdf -file $URDF_PATH -model $MODEL
