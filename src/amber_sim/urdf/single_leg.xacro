@@ -103,4 +103,6 @@
   </joint>
 
   </xacro:macro>
+
+  <xacro:amber_leg id="0" x="0" y="0" z="1" joint="head"/>
 </robot>
