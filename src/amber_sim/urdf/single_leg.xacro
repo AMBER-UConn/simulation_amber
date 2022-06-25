@@ -11,35 +11,46 @@
   <xacro:property name="ANGLEu" value="${upper_arm_angle * TO_RAD}"/>
 
   <!-- LOWER LEG DIMENSIONS -->
-  <xacro:property name="xu" value="1" />
-  <xacro:property name="yu" value="0.27" />
-  <xacro:property name="zu" value="0.221" />
+  <xacro:property name="xdu" value="1" />
+  <xacro:property name="ydu" value="0.27" />
+  <xacro:property name="zdu" value="0.221" />
 
   <!-- UPPER LEG DIMENSIONS -->
-  <xacro:property name="xl" value="0.751" />
-  <xacro:property name="yl" value="0.137" />
-  <xacro:property name="zl" value="0.123" />
+  <xacro:property name="xdl" value="0.751" />
+  <xacro:property name="ydl" value="0.137" />
+  <xacro:property name="zdl" value="0.123" />
 
   <!-- Lower Leg Shift -->
-  <xacro:property name="Ju" value="${xl * (2/5)}" /> <!-- Lower Leg Joint Shift -->
+  <xacro:property name="Ju" value="${xdl * (2/5)}" /> <!-- Lower Leg Joint Shift -->
   <xacro:property name="xt" value="${Ju * cos(ANGLEu)}" /> <!-- LLJS Angle X-Shift -->
   <xacro:property name="zt" value="${Ju * sin(ANGLEu)}" /> <!-- LLJS Angle Z-Shift -->
 
 
+
   <xacro:macro name="amber_leg" params="id x y z joint dir">
+
+    <!-- LOWER LEG POSITION -->
+    <xacro:property name="xpl" value="${0.333}" />
+    <xacro:property name="ypl" value="${y - 0.15*dir}" />
+    <xacro:property name="zpl" value="${.03}" />
+
+    <!-- UPPER LEG POSITION -->
+    <xacro:property name="xpu" value="${x}" />
+    <xacro:property name="ypu" value="${y}" />
+    <xacro:property name="zpu" value="${z}" />
 
   <!-- UPPER LEG -->
     <link name="upper_leg ${id}">
       <visual>
-        <origin rpy="0 ${ANGLEu} 0" xyz="${x} ${y} ${z}"/>
+        <origin rpy="0 ${ANGLEu} 0" xyz="${xpu} ${ypu} ${zpu}"/>
         <geometry>
           <mesh filename="package://amber_sim/stl/UPLEG.stl" />
         </geometry>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="0 0 0.1585"/>
+        <origin rpy="0 ${ANGLEu} 0" xyz="${xpu} ${ypu} ${zpu}"/>
         <geometry>
-          <box size="0.0356 0.05 0.317"/>
+          <box size="${xdl} ${ydl} ${zdl}"/>
         </geometry>
       </collision>
       <inertial>
@@ -53,23 +64,23 @@
       <parent link="upper_leg ${id}"/>
       <child link="lower_leg ${id}"/>
       <dynamics damping="3.0" friction="0.3"/>
-      <limit effort="30.0" lower="-1.57079632679" upper="1.57079632679" velocity="5.0"/>
-      <!-- <origin rpy="0 0 0" xyz="0 0 0.317"/> -->
+      <limit effort="30.0" lower="${-pi/2}" upper="${pi/2}" velocity="5.0"/>
+      <origin rpy="0 0 0" xyz="${x + xt} 0 ${z - zt}"/>
       <axis xyz="0 1 0"/>
     </joint>
 
   <!-- LOWER LEG -->
     <link name="lower_leg ${id}">
       <visual>
-        <origin rpy="0 0 0" xyz="${x + xt + 0.3} ${y - 0.15*dir} ${z - zt - 0.03}"/>
+        <origin rpy="0 0 0" xyz="${xpl} ${ypl} ${zpl}"/>
         <geometry>
           <mesh filename="package://amber_sim/stl/LOWLEG.stl" scale="1 ${dir} 1"/>
         </geometry>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="0 0 0.101"/>
+        <origin rpy="0 0 0" xyz="${xpl} ${ypl} ${zpl}"/>
         <geometry>
-          <box size="0.0356 0.05 0.202"/>
+          <box size="${xdl} ${ydl} ${zdl}"/>
         </geometry>
       </collision>
       <inertial>
@@ -79,7 +90,7 @@
       </inertial>
     </link>
 
-    <joint name="hip_joint ${id}" type="revolute">
+    <joint name="hip_joint ${id}" type="fixed">
       <parent link="${joint}"/>
       <child link="upper_leg ${id}"/>
       <dynamics damping="3.0" friction="0.3"/>
@@ -90,7 +101,5 @@
 
   </xacro:macro>
 
-  <!--
   <xacro:amber_leg id="0" x="0" y="0" z="1" joint="head" dir="1"/>
-  -->
 </robot>
