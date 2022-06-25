@@ -19,9 +19,9 @@
     </inertial>
   </link>
 
-    <xacro:amber_leg id="0" x="0" y="0" z="1" joint="head"/>
-    <xacro:amber_leg id="1" x="0" y="2" z="1" joint="head"/>
-    <xacro:amber_leg id="2" x="1.5" y="0" z="1" joint="head"/>
-    <xacro:amber_leg id="3" x="1.5" y="2" z="1" joint="head"/>
+    <xacro:amber_leg id="bottom_right" x="0" y="0" z="1" joint="head" dir="1"/>
+    <xacro:amber_leg id="bottom_left" x="0" y="2" z="1" joint="head" dir="-1"/>
+    <xacro:amber_leg id="top_right" x="1.5" y="0" z="1" joint="head" dir="1"/>
+    <xacro:amber_leg id="top_left" x="1.5" y="2" z="1" joint="head" dir="-1"/>
 
 </robot>
