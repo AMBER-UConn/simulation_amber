@@ -30,63 +30,69 @@
   <xacro:macro name="amber_leg" params="id x y z joint dir">
 
     <!-- LOWER LEG POSITION -->
-    <xacro:property name="xpl" value="${0.333}" />
+    <xacro:property name="xpl" value="${0.3}" />
     <xacro:property name="ypl" value="${y - 0.15*dir}" />
     <xacro:property name="zpl" value="${.03}" />
+    <xacro:property name="xyzu" value="${xpu} ${ypu} ${zpu}" />
 
     <!-- UPPER LEG POSITION -->
     <xacro:property name="xpu" value="${x}" />
     <xacro:property name="ypu" value="${y}" />
     <xacro:property name="zpu" value="${z}" />
+    <xacro:property name="xyzl" value="${xpl} ${ypl} ${zpl}" />
 
+    
   <!-- UPPER LEG -->
+    
     <link name="upper_leg ${id}">
       <visual>
-        <origin rpy="0 ${ANGLEu} 0" xyz="${xpu} ${ypu} ${zpu}"/>
+        <origin rpy="0 ${ANGLEu} 0" xyz="${xyzu}"/>
         <geometry>
           <mesh filename="package://amber_sim/stl/UPLEG.stl" />
         </geometry>
       </visual>
       <collision>
-        <origin rpy="0 ${ANGLEu} 0" xyz="${xpu} ${ypu} ${zpu}"/>
+        <origin rpy="0 ${ANGLEu} 0" xyz="${xyzu}"/>
         <geometry>
           <box size="${xdl} ${ydl} ${zdl}"/>
         </geometry>
       </collision>
       <inertial>
-        <origin rpy="0 0 0" xyz="0 0 0.1585"/>
-        <mass value="0.29302326"/>
-        <inertia ixx="0.00251484771035" ixy="0" ixz="0" iyy="0.00248474836108" iyz="0" izz="9.19936757328e-05"/>
+        <origin rpy="0 ${ANGLEu} 0" xyz="${xyzu}"/>
+        <mass value="1.624271"/>
+        <inertia ixx="89413.852" ixy="6.821e-10" ixz="30343.48" 
+                 iyy="99736.006" iyz="-1.705e-09" izz="17089.95"/>
       </inertial>
     </link>
 
-    <joint name="knee_joint ${id}" type="revolute">
+    <joint name="knee_joint ${id}" type="continuous">
       <parent link="upper_leg ${id}"/>
       <child link="lower_leg ${id}"/>
-      <dynamics damping="3.0" friction="0.3"/>
-      <limit effort="30.0" lower="${-pi/2}" upper="${pi/2}" velocity="5.0"/>
+      <dynamics damping=".1" friction="0.1"/>
       <origin rpy="0 0 0" xyz="${x + xt} 0 ${z - zt}"/>
       <axis xyz="0 1 0"/>
     </joint>
 
   <!-- LOWER LEG -->
+
     <link name="lower_leg ${id}">
       <visual>
-        <origin rpy="0 0 0" xyz="${xpl} ${ypl} ${zpl}"/>
+        <origin rpy="0 0 0" xyz="${xyzl}"/>
         <geometry>
           <mesh filename="package://amber_sim/stl/LOWLEG.stl" scale="1 ${dir} 1"/>
         </geometry>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="${xpl} ${ypl} ${zpl}"/>
+        <origin rpy="0 0 0" xyz="${xyzl}"/>
         <geometry>
           <box size="${xdl} ${ydl} ${zdl}"/>
         </geometry>
       </collision>
       <inertial>
-        <origin rpy="0 0 0" xyz="0 0 0.101"/>
-        <mass value="0.21931466"/>
-        <inertia ixx="0.000791433503053" ixy="0" ixz="0" iyy="0.000768905501178" iyz="0" izz="6.88531064581e-05"/>
+        <origin rpy="0 0 0" xyz="${xyzl}"/>
+        <mass value="3.442209"/>
+        <inertia ixx="32621.012" ixy="6974.557" ixz="5690.275" 
+                 iyy="3.402e+05" iyz="-483.578" izz="3.343e+05"/>
       </inertial>
     </link>
 
