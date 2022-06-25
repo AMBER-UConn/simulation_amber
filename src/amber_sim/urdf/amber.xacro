@@ -3,23 +3,32 @@
 
 <robot name="AMBER" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+    <!-- BODY DIMENSIONS -->
+    <xacro:property name="xdb" value="1.71" />
+    <xacro:property name="ydb" value="0.683" />
+    <xacro:property name="zdb" value="0.41" />
+
     <xacro:include filename="$(find amber_sim)/urdf/single_leg.xacro"/>
 
     <link name="head">
     <visual>
-      <origin rpy="0 0 0" xyz="0.7 1 1.5"/>
+      <origin rpy="0 0 0" xyz="0 0 1"/>
+      <material name="body">
+        <color rgba="0.5 0.6 0.9 1.0" />
+      </material>
       <geometry>
-        <box size="2 2 0.5"/>
+        <mesh filename="package://amber_sim/stl/BODY.stl"/>
       </geometry>
     </visual>
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0.0615"/>
-      <mass value="0.190421352"/>
-      <inertia ixx="0.000279744834534" ixy="0" ixz="0" iyy="0.000265717763008" iyz="0" izz="6.53151584738e-05"/>
+      <mass value="54.40980"/>
+      <inertia ixx="3.663e+06" ixy="14390.775" ixz="1.424e+06" 
+               iyy="1.560e+07" iyz="8027.636" izz="1.721e+07"/>
     </inertial>
   </link>
 
-    <xacro:amber_leg id="bottom_right" x="0" y="0" z="1" joint="head" dir="1"/>
+    <xacro:amber_leg id="bottom_right" x="${0}" y="${-ydb/2}" z="1" joint="head" dir="1"/>
     <xacro:amber_leg id="bottom_left" x="0" y="2" z="1" joint="head" dir="-1"/>
     <xacro:amber_leg id="top_right" x="1.5" y="0" z="1" joint="head" dir="1"/>
     <xacro:amber_leg id="top_left" x="1.5" y="2" z="1" joint="head" dir="-1"/>

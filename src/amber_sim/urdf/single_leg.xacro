@@ -47,6 +47,9 @@
     <link name="upper_leg ${id}">
       <visual>
         <origin rpy="0 ${ANGLEu} 0" xyz="${xyzu}"/>
+        <material name="ul">
+          <color rgba="0.6 0.6 0.6 1.0" />
+        </material>
         <geometry>
           <mesh filename="package://amber_sim/stl/UPLEG.stl" />
         </geometry>
@@ -78,6 +81,9 @@
     <link name="lower_leg ${id}">
       <visual>
         <origin rpy="0 0 0" xyz="${xyzl}"/>
+        <material name="ll">
+          <color rgba="0.6 0.6 0.7 1.0" />
+        </material>
         <geometry>
           <mesh filename="package://amber_sim/stl/LOWLEG.stl" scale="1 ${dir} 1"/>
         </geometry>
