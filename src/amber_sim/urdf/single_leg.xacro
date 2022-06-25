@@ -4,48 +4,35 @@
 <robot name="AMBER_Leg" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
-  <xacro:property name="to_rad" value="${pi/180}"/>
+  <xacro:property name="upper_arm_angle" value="50" />
 
-  <xacro:property name="arm_angle" value="${75 * to_rad}"/>
+  <xacro:property name="TO_RAD" value="${pi/180}"/>
 
-  <xacro:property name="alpha" value="${0.751 * sin(arm_angle)}"/>
-  <xacro:property name="beta" value="${0.751 * cos(arm_angle)}"/>
+  <xacro:property name="ANGLEu" value="${upper_arm_angle * TO_RAD}"/>
 
-<!--
-  <link name="hip_module">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
-      <geometry>
-        <box size="0.0402 0.05 0.123"/>
-      </geometry>
-      <material name="omni/Blue"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
-      <geometry>
-        <box size="0.0402 0.05 0.123"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0.0615"/>
-      <mass value="0.190421352"/>
-      <inertia ixx="0.000279744834534" ixy="0" ixz="0" iyy="0.000265717763008" iyz="0" izz="6.53151584738e-05"/>
-    </inertial>
-  </link>
--->
+  <!-- LOWER LEG DIMENSIONS -->
+  <xacro:property name="xu" value="1" />
+  <xacro:property name="yu" value="0.27" />
+  <xacro:property name="zu" value="0.221" />
+
+  <!-- UPPER LEG DIMENSIONS -->
+  <xacro:property name="xl" value="0.751" />
+  <xacro:property name="yl" value="0.137" />
+  <xacro:property name="zl" value="0.123" />
+
+  <!-- Lower Leg Shift -->
+  <xacro:property name="Ju" value="${xl * (2/5)}" /> <!-- Lower Leg Joint Shift -->
+  <xacro:property name="xt" value="${Ju * cos(ANGLEu)}" /> <!-- LLJS Angle X-Shift -->
+  <xacro:property name="zt" value="${Ju * sin(ANGLEu)}" /> <!-- LLJS Angle Z-Shift -->
+
 
   <xacro:macro name="amber_leg" params="id x y z joint">
-
-  <!--
-    <origin rpy = "0 0 0" xyz = "${x} ${y} ${z}"/>
-  -->
 
   <!-- UPPER LEG -->
     <link name="upper_leg ${id}">
       <visual>
-        <origin rpy="0 ${arm_angle} 0" xyz="${x} ${y} ${z}"/>
+        <origin rpy="0 ${ANGLEu} 0" xyz="${x} ${y} ${z}"/>
         <geometry>
-          <!-- <box size="0.0356 0.05 0.317"/> -->
           <mesh filename="package://amber_sim/stl/UPLEG.stl"/>
         </geometry>
       </visual>
@@ -74,9 +61,8 @@
   <!-- LOWER LEG -->
     <link name="lower_leg ${id}">
       <visual>
-        <origin rpy="0 0 0" xyz="${(0.5 * alpha) + 0.05 + x} ${-0.15 + y} ${-(1.5 * beta) + z}"/>
+        <origin rpy="0 0 0" xyz="${x + xt + 0.3} ${y - 0.15} ${z - zt - 0.03}"/>
         <geometry>
-          <!-- <box size="0.0356 0.05 0.202"/> -->
           <mesh filename="package://amber_sim/stl/LOWLEG.stl"/>
         </geometry>
       </visual>
