@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/vihaan/.mujoco/mujoco210/myproject/projectile'
+gcc -O2 -I../../include -L../../bin -mavx -pthread -Wl,-rpath,'$ORIGIN' main.c -lmujoco210 -lGL -lm -lglew ../../bin/libglfw.so.3 -o ../../bin/projectie
+make: Leaving directory '/home/vihaan/.mujoco/mujoco210/myproject/projectile'
+ 

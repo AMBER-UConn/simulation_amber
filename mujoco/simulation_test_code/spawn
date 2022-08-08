@@ -1,0 +1,4 @@
+reset
+make clean
+make
+cd ../../bin && ./simulation_test_code
