@@ -1,0 +1,46 @@
+<mujoco model="2dof_leg_module_v3">
+    <compiler angle="radian" meshdir="../meshes/" />
+    <size njmax="500" nconmax="100" />
+
+    <asset>
+        <mesh name="hip_module" file="hip_module.STL" />
+        <mesh name="upper_leg" file="upper_leg.STL" />
+        <mesh name="lower_leg" file="lower_leg.STL" />
+    </asset>
+
+    <default>
+        <joint frictionloss = "0.5" damping="2.2" armature="0.01"/>
+    </default>
+
+    <option gravity = "0 0 -9.8"/>
+
+    <worldbody>
+
+        <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.752941 0.752941 0.752941 1" mesh="hip_module" />
+        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="hip_module" />
+        <body name="upper_leg" pos="0.066577 -0.011968 -0.0185">
+            <inertial pos="-0.0578208 -0.0212739 -0.0555578" quat="0.640784 0.254162 0.299142 0.659781" mass="0.0942771" diaginertia="0.000160483 0.000154497 1.3996e-05" />
+            <joint name="hip_joint" pos="0 0 0" axis="0 -1 0" />
+            <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.752941 0.752941 0.752941 1" mesh="upper_leg" />
+            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="upper_leg" />
+            <body name="lower_leg" pos="-0.11534 -0.0324 -0.11089">
+                <inertial pos="0.0478755 -0.0138956 -0.0466193" quat="0.281232 0.654101 0.648775 0.26861" mass="0.037401" diaginertia="0.000102588 0.000101714 1.74264e-06" />
+                <joint name="knee_joint" pos="0 0 0" axis="0 1 0" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.752941 0.752941 0.752941 1" mesh="lower_leg" />
+                <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="lower_leg" />
+            </body>
+        </body>
+    </worldbody>
+    
+    <actuator>
+        <motor name = "hip_motor" joint = "hip_joint" gear = "1"/>
+        <position name = "hip_pos_servo" joint = "hip_joint" kp = "5" />
+        <velocity name = "hip_vel_servo" joint = "hip_joint" kv = "0" />
+        
+        <motor name = "knee_motor" joint = "knee_joint"/>
+        <position name = "knee_pos_servo" joint = "knee_joint" kp = "5" />
+        <velocity name = "knee_vel_servo" joint = "knee_joint" kv = "0" />
+
+
+    </actuator>
+</mujoco>
